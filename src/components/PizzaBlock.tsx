@@ -1,26 +1,42 @@
+import { useState } from "react";
+
 type IProps = {
   title: string;
   price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
 };
 
 const PizzaBlock = (props: IProps) => {
+  const [activeType, setActiveType] = useState<number>(0);
+  const [activeSize, setActiveSize] = useState<number>(0);
+  const typeNames = ["тонкое", "традиционное"];
+
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-        alt="Pizza"
-      />
+      <img className="pizza-block__image" src={props.imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{props.title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {props.types.map((typeIndex, index) => (
+            <li
+              className={activeType === index ? "active" : ""}
+              onClick={() => setActiveType(typeIndex)}
+            >
+              {typeNames[typeIndex] ? typeNames[typeIndex] : "неизвестно"}
+            </li>
+          ))}
         </ul>
         <ul>
-          <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {props.sizes.map((size, index) => (
+            <li
+              className={activeSize === index ? "active" : ""}
+              onClick={() => setActiveSize(index)}
+            >
+              {size} см.
+            </li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
